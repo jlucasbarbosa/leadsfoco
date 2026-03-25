@@ -1,0 +1,16 @@
+{
+  "name": "focoradical-lp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node -e \"console.log('No build step is required for the local Node server.')\"",
+    "start": "node server.js",
+    "lint": "node -e \"console.log('No lint step is configured for the local Node server.')\""
+  },
+  "dependencies": {
+    "next": "15.3.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  }
+}

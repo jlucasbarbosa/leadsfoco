@@ -1,0 +1,177 @@
+:root {
+  color-scheme: light;
+  --bg: #0d0f10;
+  --bg-soft: #16191b;
+  --accent: #f7d54a;
+  --accent-dark: #c8a50d;
+  --text: #f4f3ef;
+  --muted: #c8c7c2;
+  --card: rgba(20, 22, 24, 0.9);
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: radial-gradient(circle at top, #1b1f22 0%, #0c0d0f 45%, #090a0b 100%);
+  color: var(--text);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 60vh;
+  display: grid;
+  align-items: center;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(110deg, rgba(7, 9, 11, 0.75) 10%, rgba(7, 9, 11, 0.45) 55%, rgba(7, 9, 11, 0.9) 100%),
+    url('assets/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.05);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 64px 8vw 72px;
+  max-width: 720px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  letter-spacing: 0.02em;
+  margin: 0 0 16px;
+}
+
+.lead {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0 0 24px;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(10, 12, 14, 0.75);
+  border: 1px solid rgba(247, 213, 74, 0.4);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-wrap {
+  background: var(--bg-soft);
+  padding: 48px 8vw 72px;
+  display: flex;
+  justify-content: center;
+}
+
+.lead-form {
+  width: min(520px, 100%);
+  background: var(--card);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+  display: grid;
+  gap: 20px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+input {
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(11, 12, 14, 0.85);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid rgba(247, 213, 74, 0.5);
+  border-color: transparent;
+}
+
+.cta {
+  border: none;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #1b1b17;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 26px rgba(247, 213, 74, 0.3);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+}
+
+.lead-form.submitted .cta {
+  background: linear-gradient(135deg, #9ee493, #56c45d);
+  box-shadow: 0 12px 26px rgba(86, 196, 93, 0.3);
+}
+
+.fineprint {
+  margin: 0;
+  color: rgba(244, 243, 239, 0.6);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    min-height: 55vh;
+  }
+
+  .hero-content {
+    padding: 48px 6vw 60px;
+  }
+
+  .form-wrap {
+    padding: 36px 6vw 60px;
+  }
+
+  .lead-form {
+    padding: 26px;
+  }
+}

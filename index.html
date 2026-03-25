@@ -1,0 +1,105 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TDfotos • Receba suas fotos no WhatsApp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero" aria-label="Treino TDfotos">
+        <div class="hero-media" role="img" aria-label="Atletas e fotógrafo no treino"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Treino & fotos oficiais</p>
+          <h1>Receba o link das suas fotos direto no WhatsApp</h1>
+          <p class="lead">
+            Informe seu nome e número para receber o álbum assim que for liberado.
+            É rápido e sem complicação.
+          </p>
+          <div class="hero-pill">Entrega no WhatsApp em minutos</div>
+        </div>
+      </header>
+
+      <section class="form-wrap" aria-label="Cadastro para receber fotos">
+        <form class="lead-form" autocomplete="on">
+          <div class="field">
+            <label for="nome">Nome completo</label>
+            <input id="nome" name="nome" type="text" placeholder="Ex.: Ana Souza" required />
+          </div>
+          <div class="field">
+            <label for="whatsapp">WhatsApp</label>
+            <input
+              id="whatsapp"
+              name="whatsapp"
+              type="tel"
+              inputmode="numeric"
+              placeholder="(65) 99999-0000"
+              required
+            />
+          </div>
+          <button class="cta" type="submit">Quero ser avisado assim que as fotos liberarem</button>
+          <p class="fineprint">
+            Ao enviar, você concorda em receber o link das fotos do treino pelo WhatsApp.
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      const form = document.querySelector('.lead-form');
+      const phoneInput = document.getElementById('whatsapp');
+
+      const formatPhone = (value) => {
+        const digits = value.replace(/\D/g, '').slice(0, 11);
+        const ddd = digits.slice(0, 2);
+        const part1 = digits.slice(2, 7);
+        const part2 = digits.slice(7, 11);
+        if (digits.length <= 2) return digits;
+        if (digits.length <= 7) return `(${ddd}) ${part1}`.trim();
+        return `(${ddd}) ${part1}-${part2}`.trim();
+      };
+
+      phoneInput.addEventListener('input', (event) => {
+        event.target.value = formatPhone(event.target.value);
+      });
+
+      const ENDPOINT =
+        'https://script.google.com/macros/s/AKfycbznY3tv9YAlvM8YWRhgxWrn4xrp_Vhppiukl-MjqrwefUYm3MIEuPua_qfpTB6t8QSBig/exec';
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const button = form.querySelector('.cta');
+        const nome = document.getElementById('nome').value.trim();
+        const whatsapp = phoneInput.value.trim();
+
+        button.textContent = 'Enviando...';
+        button.disabled = true;
+
+        try {
+          const response = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, whatsapp }),
+          });
+
+          if (!response.ok) throw new Error('Falha no envio');
+
+          form.classList.add('submitted');
+          button.textContent = 'Cadastro enviado!';
+        } catch (error) {
+          button.textContent = 'Tentar novamente';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
+
