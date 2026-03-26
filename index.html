@@ -3,103 +3,202 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TDfotos • Receba suas fotos no WhatsApp</title>
+    <title>Foco Radical | Receba suas fotos</title>
+    <meta
+      name="description"
+      content="Receba automaticamente o link das fotos no seu WhatsApp assim que forem liberadas."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Poppins:wght@700;800;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="page">
-      <header class="hero" aria-label="Treino TDfotos">
-        <div class="hero-media" role="img" aria-label="Atletas e fotógrafo no treino"></div>
-        <div class="hero-content">
-          <p class="eyebrow">Treino & fotos oficiais</p>
-          <h1>Receba o link das suas fotos direto no WhatsApp</h1>
-          <p class="lead">
-            Informe seu nome e número para receber o álbum assim que for liberado.
-            É rápido e sem complicação.
-          </p>
-          <div class="hero-pill">Entrega no WhatsApp em minutos</div>
-        </div>
+      <header class="topbar">
+        <img class="brand-logo" src="/logo_trimmed.png" alt="Foco Radical" />
       </header>
 
-      <section class="form-wrap" aria-label="Cadastro para receber fotos">
-        <form class="lead-form" autocomplete="on">
-          <div class="field">
-            <label for="nome">Nome completo</label>
-            <input id="nome" name="nome" type="text" placeholder="Ex.: Ana Souza" required />
+      <section class="hero" aria-label="Receba as fotos no WhatsApp">
+        <div class="hero-copy">
+          <p class="eyebrow">Campo Grande - MS</p>
+          <h1>Receba automaticamente o link das fotos no seu WhatsApp assim que forem liberadas</h1>
+          <p class="lead">Sem precisar procurar. Liberou, você recebe automaticamente.</p>
+          <div class="hero-pill">
+            <span aria-hidden="true">&#128247;</span>
+            <span>Fotógrafo oficial da Foco Radical</span>
           </div>
-          <div class="field">
+        </div>
+
+        <figure class="hero-art" aria-hidden="true">
+          <img src="/person.png" alt="" />
+        </figure>
+
+        <aside class="form-shell">
+          <form class="lead-form" id="leadForm" novalidate>
             <label for="whatsapp">WhatsApp</label>
             <input
               id="whatsapp"
               name="whatsapp"
               type="tel"
               inputmode="numeric"
+              autocomplete="tel"
               placeholder="(65) 99999-0000"
               required
             />
-          </div>
-          <button class="cta" type="submit">Quero ser avisado assim que as fotos liberarem</button>
-          <p class="fineprint">
-            Ao enviar, você concorda em receber o link das fotos do treino pelo WhatsApp.
-          </p>
-        </form>
+
+            <fieldset>
+              <legend>Onde você treina</legend>
+              <div class="choice-grid">
+                <button type="button" class="choice-chip" data-group="locais" data-value="Parque dos Poderes" aria-pressed="false">Parque dos Poderes</button>
+                <button type="button" class="choice-chip" data-group="locais" data-value="Parque das Nações" aria-pressed="false">Parque das Nações</button>
+                <button type="button" class="choice-chip" data-group="locais" data-value="Orla do Aeroporto" aria-pressed="false">Orla do Aeroporto</button>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Quais dias você vai?</legend>
+              <div class="choice-grid days-grid">
+                <button type="button" class="choice-chip" data-group="dias" data-value="Seg" aria-pressed="false">Seg</button>
+                <button type="button" class="choice-chip" data-group="dias" data-value="Ter" aria-pressed="false">Ter</button>
+                <button type="button" class="choice-chip" data-group="dias" data-value="Qua" aria-pressed="false">Qua</button>
+                <button type="button" class="choice-chip" data-group="dias" data-value="Qui" aria-pressed="false">Qui</button>
+                <button type="button" class="choice-chip" data-group="dias" data-value="Sex" aria-pressed="false">Sex</button>
+                <button type="button" class="choice-chip" data-group="dias" data-value="Sáb" aria-pressed="false">Sáb</button>
+                <button type="button" class="choice-chip" data-group="dias" data-value="Dom" aria-pressed="false">Dom</button>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Qual período você treina?</legend>
+              <div class="choice-grid periods-grid">
+                <button type="button" class="choice-chip" data-group="periodos" data-value="Manhã" aria-pressed="false">Manhã</button>
+                <button type="button" class="choice-chip" data-group="periodos" data-value="Tarde" aria-pressed="false">Tarde</button>
+                <button type="button" class="choice-chip" data-group="periodos" data-value="Noite" aria-pressed="false">Noite</button>
+              </div>
+            </fieldset>
+
+            <button type="submit" class="cta" id="submitBtn">
+              <span aria-hidden="true">&#128293;</span>
+              <span>Quero receber automaticamente</span>
+            </button>
+
+            <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+          </form>
+        </aside>
       </section>
+
+      <footer class="site-footer">CRIADO POR LUCAS BARBOSA</footer>
     </main>
 
     <script>
-      const form = document.querySelector('.lead-form');
-      const phoneInput = document.getElementById('whatsapp');
-
-      const formatPhone = (value) => {
-        const digits = value.replace(/\D/g, '').slice(0, 11);
-        const ddd = digits.slice(0, 2);
-        const part1 = digits.slice(2, 7);
-        const part2 = digits.slice(7, 11);
-        if (digits.length <= 2) return digits;
-        if (digits.length <= 7) return `(${ddd}) ${part1}`.trim();
-        return `(${ddd}) ${part1}-${part2}`.trim();
+      const form = document.getElementById("leadForm");
+      const phoneInput = document.getElementById("whatsapp");
+      const feedback = document.getElementById("feedback");
+      const submitBtn = document.getElementById("submitBtn");
+      const REDIRECT_URL = "https://instagram.com/7dfotos";
+      const ENDPOINT =
+        "https://script.google.com/macros/s/AKfycbznY3tv9YAlvM8YWRhgxWrn4xrp_Vhppiukl-MjqrwefUYm3MIEuPua_qfpTB6t8QSBig/exec";
+      const selected = {
+        locais: new Set(),
+        dias: new Set(),
+        periodos: new Set(),
       };
 
-      phoneInput.addEventListener('input', (event) => {
-        event.target.value = formatPhone(event.target.value);
+      const onlyDigits = (value) => String(value || "").replace(/\D/g, "").slice(0, 11);
+
+      const formatWhatsapp = (value) => {
+        const digits = onlyDigits(value);
+        if (digits.length <= 2) return digits;
+        if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+        return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+      };
+
+      const setFeedback = (type, message) => {
+        feedback.className = `feedback${type ? ` ${type}` : ""}`;
+        feedback.textContent = message;
+      };
+
+      const syncButtonState = (button) => {
+        const group = button.dataset.group;
+        const value = button.dataset.value;
+        const isSelected = selected[group].has(value);
+        button.classList.toggle("selected", isSelected);
+        button.setAttribute("aria-pressed", String(isSelected));
+      };
+
+      document.querySelectorAll(".choice-chip").forEach((button) => {
+        syncButtonState(button);
+
+        button.addEventListener("click", () => {
+          const group = button.dataset.group;
+          const value = button.dataset.value;
+
+          if (selected[group].has(value)) {
+            selected[group].delete(value);
+          } else {
+            selected[group].add(value);
+          }
+
+          syncButtonState(button);
+        });
       });
 
-      const ENDPOINT =
-        'https://script.google.com/macros/s/AKfycbznY3tv9YAlvM8YWRhgxWrn4xrp_Vhppiukl-MjqrwefUYm3MIEuPua_qfpTB6t8QSBig/exec';
+      phoneInput.addEventListener("input", (event) => {
+        event.target.value = formatWhatsapp(event.target.value);
+      });
 
-      form.addEventListener('submit', async (event) => {
+      form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        const button = form.querySelector('.cta');
-        const nome = document.getElementById('nome').value.trim();
-        const whatsapp = phoneInput.value.trim();
 
-        button.textContent = 'Enviando...';
-        button.disabled = true;
+        const whatsapp = onlyDigits(phoneInput.value);
+
+        if (whatsapp.length < 10) {
+          setFeedback("error", "Digite um WhatsApp válido para continuar.");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        setFeedback("loading", "Enviando seus dados...");
 
         try {
           const response = await fetch(ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nome, whatsapp }),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              whatsapp,
+              local: Array.from(selected.locais).join(", "),
+              locais: Array.from(selected.locais),
+              days: Array.from(selected.dias),
+              periodos: Array.from(selected.periodos),
+            }),
           });
 
-          if (!response.ok) throw new Error('Falha no envio');
+          if (!response.ok) {
+            const payload = await response.json().catch(() => null);
+            throw new Error((payload && payload.error) || "Falha ao enviar o formulário");
+          }
 
-          form.classList.add('submitted');
-          button.textContent = 'Cadastro enviado!';
+          setFeedback("success", "Perfeito! Redirecionando para o Instagram...");
+          window.setTimeout(() => {
+            window.location.href = REDIRECT_URL;
+          }, 700);
         } catch (error) {
-          button.textContent = 'Tentar novamente';
+          setFeedback(
+            "error",
+            error && error.message
+              ? error.message
+              : "Não foi possível enviar agora. Tente novamente em instantes."
+          );
         } finally {
-          button.disabled = false;
+          submitBtn.disabled = false;
         }
       });
     </script>
   </body>
 </html>
-
