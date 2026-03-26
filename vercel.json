@@ -3,6 +3,8 @@
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "styles.css", "use": "@vercel/static" },
+    { "src": "logo.png", "use": "@vercel/static" },
+    { "src": "runner.jpg", "use": "@vercel/static" },
     { "src": "public/**/*", "use": "@vercel/static" },
     { "src": "api/*.js", "use": "@vercel/node" }
   ],

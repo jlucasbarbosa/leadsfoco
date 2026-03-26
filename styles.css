@@ -23,14 +23,13 @@ body {
 }
 
 body {
-  min-height: 100svh;
-  font-family: "Montserrat", sans-serif;
-  color: var(--text);
-  background:
-    radial-gradient(circle at 16% 16%, rgba(255, 204, 0, 0.16), transparent 22%),
-    radial-gradient(circle at 80% 22%, rgba(255, 255, 255, 0.08), transparent 18%),
-    linear-gradient(180deg, #0d0d0d 0%, #080808 44%, #050505 100%);
-  overflow-x: hidden;
+  background: 
+    linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)),
+    url('runner.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 body::before {
@@ -156,8 +155,11 @@ h1 {
   max-height: 74vh;
   object-fit: contain;
   object-position: center top;
-  filter: grayscale(1) brightness(0.52) contrast(1.15);
-  opacity: 0.8;
+
+  /* AJUSTE AQUI */
+  filter: brightness(0.9);
+  opacity: 1;
+
   transform: translateY(4%) scale(0.95);
 }
 
