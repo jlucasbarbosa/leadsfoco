@@ -24,6 +24,38 @@ function onlyDigits(value) {
   return String(value || "").replace(/\D/g, "").slice(0, 11);
 }
 
+async function readBody(req) {
+  if (req.body && typeof req.body === "object") {
+    return req.body;
+  }
+
+  if (typeof req.body === "string") {
+    try {
+      return JSON.parse(req.body || "{}");
+    } catch {
+      return {};
+    }
+  }
+
+  const chunks = [];
+
+  for await (const chunk of req) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+
+  const raw = Buffer.concat(chunks).toString("utf8");
+
+  if (!raw) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return {};
+  }
+}
+
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -41,7 +73,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+    const body = await readBody(req);
     const whatsapp = onlyDigits(body.whatsapp);
     const locais = normalizeList(body.locais ?? body.local);
     const days = normalizeList(body.days ?? body.dias);
