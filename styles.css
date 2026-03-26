@@ -23,6 +23,7 @@ body {
 }
 
 body {
+  font-family: "Montserrat", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   background: 
     linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)),
     url('/runner.jpg?v=20260326');
