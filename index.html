@@ -130,20 +130,37 @@
         button.setAttribute("aria-pressed", String(isSelected));
       };
 
+      const toggleChoice = (button) => {
+        const group = button.dataset.group;
+        const value = button.dataset.value;
+
+        if (selected[group].has(value)) {
+          selected[group].delete(value);
+        } else {
+          selected[group].add(value);
+        }
+
+        syncButtonState(button);
+      };
+
       document.querySelectorAll(".choice-chip").forEach((button) => {
         syncButtonState(button);
 
-        button.addEventListener("click", () => {
-          const group = button.dataset.group;
-          const value = button.dataset.value;
+        button.addEventListener("pointerdown", (event) => {
+          if (event.pointerType === "touch" || event.pointerType === "pen") {
+            event.preventDefault();
+            button.dataset.fastTapHandled = "1";
+            toggleChoice(button);
+          }
+        });
 
-          if (selected[group].has(value)) {
-            selected[group].delete(value);
-          } else {
-            selected[group].add(value);
+        button.addEventListener("click", () => {
+          if (button.dataset.fastTapHandled === "1") {
+            button.dataset.fastTapHandled = "0";
+            return;
           }
 
-          syncButtonState(button);
+          toggleChoice(button);
         });
       });
 

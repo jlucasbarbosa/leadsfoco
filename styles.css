@@ -246,6 +246,9 @@ input:focus-visible {
   font-weight: 800;
   line-height: 1.05;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
   transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
 }
 
@@ -276,6 +279,8 @@ input:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   box-shadow: 0 12px 28px rgba(255, 209, 0, 0.2);
   transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
 }
@@ -437,6 +442,16 @@ input:focus-visible {
   .site-footer {
     font-size: 0.62rem;
     letter-spacing: 0.1em;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .choice-chip {
+    transition: border-color 80ms ease, background 80ms ease, box-shadow 80ms ease;
+  }
+
+  .cta {
+    transition: opacity 90ms ease, box-shadow 90ms ease;
   }
 }
 
