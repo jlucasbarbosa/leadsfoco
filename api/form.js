@@ -1,4 +1,4 @@
-const WEBHOOK_URL = "https://n8n.ceci.chat/webhook/form";
+const WEBHOOK_URL = process.env.WEBHOOK_URL || "https://n8n.ceci.chat/webhook/form";
 
 function json(res, statusCode, payload) {
   const body = JSON.stringify(payload);
@@ -78,6 +78,7 @@ module.exports = async (req, res) => {
     const locais = normalizeList(body.locais ?? body.local);
     const days = normalizeList(body.days ?? body.dias);
     const periodos = normalizeList(body.periodos ?? body.periodo);
+    const tipo = String(body.tipo || "").trim();
 
     if (whatsapp.length < 10) {
       json(res, 400, { error: "Digite um WhatsApp valido para continuar." });
@@ -88,6 +89,7 @@ module.exports = async (req, res) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json, text/plain, */*",
       },
       body: JSON.stringify({
         whatsapp,
@@ -95,14 +97,14 @@ module.exports = async (req, res) => {
         locais,
         days,
         periodos,
-        source: "vercel",
+        tipo,
       }),
     });
 
     if (!response.ok) {
       const details = await response.text().catch(() => "");
       json(res, 502, {
-        error: "Nao foi possivel enviar para o webhook.",
+        error: `Webhook retornou status ${response.status}.`,
         details: details.slice(0, 300),
       });
       return;
