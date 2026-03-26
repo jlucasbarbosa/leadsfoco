@@ -23,7 +23,7 @@
   <body>
     <main class="page">
       <header class="topbar">
-        <img class="brand-logo" src="/logo.png" alt="Foco Radical" draggable="false" />
+        <img class="brand-logo" src="/logo.png" alt="Foco Radical" />
       </header>
 
       <section class="hero" aria-label="Receba as fotos no WhatsApp">
@@ -111,59 +111,6 @@
         dias: new Set(),
         periodos: new Set(),
       };
-
-      const isEditableElement = (target) => {
-        if (!(target instanceof Element)) return false;
-        return Boolean(target.closest("input, textarea, [contenteditable=''], [contenteditable='true']"));
-      };
-
-      const isBlockedShortcut = (event) => {
-        const key = String(event.key || "").toLowerCase();
-        const ctrlOrMeta = event.ctrlKey || event.metaKey;
-        const blocksDevtools =
-          key === "f12" || (ctrlOrMeta && event.shiftKey && ["i", "j", "c"].includes(key));
-        const blocksPageActions = ctrlOrMeta && ["u", "s", "p"].includes(key);
-        return blocksDevtools || blocksPageActions;
-      };
-
-      const enableContentProtection = () => {
-        document.querySelectorAll("img").forEach((img) => {
-          img.setAttribute("draggable", "false");
-          img.addEventListener("dragstart", (event) => event.preventDefault());
-        });
-
-        document.addEventListener("contextmenu", (event) => {
-          if (!isEditableElement(event.target)) {
-            event.preventDefault();
-          }
-        });
-
-        document.addEventListener("selectstart", (event) => {
-          if (!isEditableElement(event.target)) {
-            event.preventDefault();
-          }
-        });
-
-        document.addEventListener("copy", (event) => {
-          if (!isEditableElement(event.target)) {
-            event.preventDefault();
-          }
-        });
-
-        document.addEventListener("cut", (event) => {
-          if (!isEditableElement(event.target)) {
-            event.preventDefault();
-          }
-        });
-
-        document.addEventListener("keydown", (event) => {
-          if (isBlockedShortcut(event) && !isEditableElement(event.target)) {
-            event.preventDefault();
-          }
-        });
-      };
-
-      enableContentProtection();
 
       const onlyDigits = (value) => String(value || "").replace(/\D/g, "").slice(0, 11);
 

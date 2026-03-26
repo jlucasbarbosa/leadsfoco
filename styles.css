@@ -54,8 +54,6 @@ body::before {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   overflow: hidden;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
 .topbar {
@@ -69,13 +67,6 @@ body::before {
   max-width: 320px;
   filter: drop-shadow(0 0 16px rgba(255, 209, 0, 0.36));
   mix-blend-mode: screen;
-  -webkit-user-drag: none;
-}
-
-input,
-textarea {
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 .hero {
