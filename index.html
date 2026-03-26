@@ -25,7 +25,12 @@
       <section class="hero" aria-label="Receba as fotos no WhatsApp">
         <div class="hero-copy">
           <p class="eyebrow">Campo Grande - MS</p>
-          <h1>Receba automaticamente o link das fotos no seu WhatsApp assim que forem liberadas</h1>
+          <h1>
+            Receba automaticamente<br />
+            o link das fotos no<br />
+            seu WhatsApp assim<br />
+            que forem liberadas
+          </h1>
           <p class="lead">Sem precisar procurar. Liberou, você recebe automaticamente.</p>
           <div class="hero-pill">
             <span aria-hidden="true">&#128247;</span>
@@ -99,9 +104,8 @@
       const phoneInput = document.getElementById("whatsapp");
       const feedback = document.getElementById("feedback");
       const submitBtn = document.getElementById("submitBtn");
-      const REDIRECT_URL = "https://instagram.com/7dfotos";
-      const ENDPOINT =
-        "https://script.google.com/macros/s/AKfycbznY3tv9YAlvM8YWRhgxWrn4xrp_Vhppiukl-MjqrwefUYm3MIEuPua_qfpTB6t8QSBig/exec";
+      const REDIRECT_URL = "https://www.instagram.com/7dfotos/";
+      const ENDPOINT = "/api/form";
       const selected = {
         locais: new Set(),
         dias: new Set(),
