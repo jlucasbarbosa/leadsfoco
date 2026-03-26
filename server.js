@@ -5,8 +5,7 @@ const path = require("path");
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || "0.0.0.0";
 const PUBLIC_DIR = path.join(__dirname, "public");
-const BACKGROUND_IMAGE_URL =
-  "https://images.unsplash.com/photo-1726195221766-e4594ff9d025?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000";
+const BACKGROUND_IMAGE_URL = "/runner.jpg?v=20260326";
 const WEBHOOK_URL = "https://n8n.ceci.chat/webhook/form";
 const REDIRECT_URL = "https://instagram.com/7dfotos";
 
