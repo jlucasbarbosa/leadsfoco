@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Foco Radical | Disparo</title>
+    <style>
+      :root {
+        --bg: #050607;
+        --card: rgba(7, 8, 10, 0.88);
+        --text: #f7f7f7;
+        --muted: #b7bcc3;
+        --yellow: #ffd100;
+        --yellow-strong: #ffbf00;
+        --border: rgba(255, 209, 0, 0.22);
+        --ok: #b7ffb3;
+        --danger: #ff9a9a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+        background:
+          radial-gradient(circle at 16% 16%, rgba(255, 209, 0, 0.2), transparent 34%),
+          radial-gradient(circle at 86% 12%, rgba(255, 191, 0, 0.08), transparent 22%),
+          linear-gradient(160deg, #0d0e11 0%, #050607 58%, #040405 100%);
+      }
+
+      .page {
+        width: min(100%, 920px);
+        margin: 0 auto;
+        padding: 20px 18px 38px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .title {
+        margin: 0;
+        font-size: clamp(1.2rem, 2vw, 1.7rem);
+      }
+
+      .logout-btn {
+        min-height: 42px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgba(7, 8, 9, 0.7);
+        color: var(--text);
+        padding: 0 14px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--card);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        padding: clamp(18px, 3vw, 28px);
+      }
+
+      .description {
+        margin: 0 0 20px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      form {
+        display: grid;
+        gap: 14px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      label {
+        font-weight: 700;
+        font-size: 0.92rem;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        margin-top: 6px;
+        min-height: 50px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(5, 6, 7, 0.64);
+        color: var(--text);
+        padding: 0 14px;
+        font: inherit;
+      }
+
+      textarea {
+        min-height: 140px;
+        padding-top: 12px;
+        resize: vertical;
+      }
+
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid rgba(255, 209, 0, 0.34);
+        outline-offset: 1px;
+      }
+
+      .submit-btn {
+        margin-top: 2px;
+        min-height: 54px;
+        border-radius: 12px;
+        border: 1px solid var(--yellow);
+        background: linear-gradient(180deg, var(--yellow), var(--yellow-strong));
+        color: #161616;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .submit-btn:disabled {
+        opacity: 0.75;
+        cursor: not-allowed;
+      }
+
+      .feedback {
+        margin: 2px 0 0;
+        min-height: 1.2em;
+        font-size: 0.9rem;
+      }
+
+      .feedback.ok {
+        color: var(--ok);
+      }
+
+      .feedback.error {
+        color: var(--danger);
+      }
+
+      .who {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      @media (max-width: 760px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <h1 class="title">Painel de Disparo</h1>
+        <button id="logoutBtn" class="logout-btn" type="button">Sair</button>
+      </header>
+
+      <section class="card">
+        <p class="description">
+          Defina o link a ser enviado, filtre o publico por dia/local/horario de treino, escreva a mensagem e
+          programe a data/horario do disparo. O n8n vai usar esses filtros para consultar o Supabase e enviar para os
+          contatos corretos.
+        </p>
+        <p class="who" id="who"></p>
+
+        <form id="dispatchForm" novalidate>
+          <div class="grid">
+            <label>
+              Dia de treino
+              <select id="diaTreino" required>
+                <option value="">Selecione</option>
+                <option value="Seg">Seg</option>
+                <option value="Ter">Ter</option>
+                <option value="Qua">Qua</option>
+                <option value="Qui">Qui</option>
+                <option value="Sex">Sex</option>
+                <option value="Sab">Sab</option>
+                <option value="Dom">Dom</option>
+                <option value="Todos">Todos</option>
+              </select>
+            </label>
+
+            <label>
+              Periodo (opcional)
+              <select id="periodo">
+                <option value="">Todos</option>
+                <option value="Manha">Manha</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noite">Noite</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid">
+            <label>
+              Link para disparo
+              <input
+                id="linkDisparo"
+                type="url"
+                maxlength="1200"
+                required
+                placeholder="https://focoradical.com.br/fotos/treino-123"
+              />
+            </label>
+
+            <label>
+              Data do disparo
+              <input id="dataEnvio" type="date" required />
+            </label>
+          </div>
+
+          <div class="grid">
+            <label>
+              Horario do disparo
+              <input id="horarioEnvio" type="time" required />
+            </label>
+
+            <label>
+              Horario do treino (opcional)
+              <input id="horarioTreino" type="time" />
+            </label>
+          </div>
+
+          <label>
+            Local (opcional)
+            <input id="local" type="text" maxlength="120" placeholder="Ex: Parque dos Poderes" />
+          </label>
+
+          <label>
+            Mensagem
+            <textarea id="mensagem" maxlength="2000" required placeholder="Digite a mensagem que sera enviada."></textarea>
+          </label>
+
+          <button id="submitBtn" class="submit-btn" type="submit">Programar envio</button>
+          <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      const who = document.getElementById("who");
+      const feedback = document.getElementById("feedback");
+      const submitBtn = document.getElementById("submitBtn");
+      const form = document.getElementById("dispatchForm");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const dataEnvioInput = document.getElementById("dataEnvio");
+      const horarioEnvioInput = document.getElementById("horarioEnvio");
+
+      function setFeedback(message, type) {
+        feedback.className = "feedback" + (type ? " " + type : "");
+        feedback.textContent = message || "";
+      }
+
+      function setDefaultSchedule() {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, "0");
+        const dd = String(now.getDate()).padStart(2, "0");
+        dataEnvioInput.value = `${yyyy}-${mm}-${dd}`;
+
+        const rounded = new Date(now.getTime() + 60 * 60 * 1000);
+        const hh = String(rounded.getHours()).padStart(2, "0");
+        const min = String(rounded.getMinutes()).padStart(2, "0");
+        horarioEnvioInput.value = `${hh}:${min}`;
+      }
+
+      async function ensureSession() {
+        const response = await fetch("/api/auth/session");
+        if (!response.ok) {
+          window.location.replace("/login");
+          return null;
+        }
+
+        const payload = await response.json();
+        if (!payload.authenticated) {
+          window.location.replace("/login");
+          return null;
+        }
+
+        who.textContent = `Usuario logado: ${payload.user}`;
+        return payload;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        setFeedback("");
+        submitBtn.disabled = true;
+
+        const body = {
+          diaTreino: String(document.getElementById("diaTreino").value || ""),
+          periodo: String(document.getElementById("periodo").value || ""),
+          linkDisparo: String(document.getElementById("linkDisparo").value || "").trim(),
+          dataEnvio: String(dataEnvioInput.value || ""),
+          horarioEnvio: String(horarioEnvioInput.value || ""),
+          horarioTreino: String(document.getElementById("horarioTreino").value || ""),
+          local: String(document.getElementById("local").value || "").trim(),
+          mensagem: String(document.getElementById("mensagem").value || "").trim(),
+        };
+
+        try {
+          const response = await fetch("/api/envio/disparar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(payload.error || "Falha ao programar envio.");
+          }
+
+          setFeedback("Envio programado com sucesso no n8n.", "ok");
+          document.getElementById("mensagem").value = "";
+          document.getElementById("linkDisparo").value = "";
+        } catch (error) {
+          setFeedback(error && error.message ? error.message : "Nao foi possivel programar o envio.", "error");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+
+      logoutBtn.addEventListener("click", async () => {
+        await fetch("/api/auth/logout", { method: "POST" }).catch(() => null);
+        window.location.replace("/login");
+      });
+
+      setDefaultSchedule();
+      ensureSession().catch(() => {
+        window.location.replace("/login");
+      });
+    </script>
+  </body>
+</html>
